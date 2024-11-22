@@ -6,6 +6,7 @@ public class TrackPosition : MonoBehaviour
 {
     public Vector3 positionChange;
     public Vector3 rotateChange;
+    public int moveNum;
 
     void Start()
     {
@@ -17,5 +18,8 @@ public class TrackPosition : MonoBehaviour
     {
         transform.position += positionChange * Time.deltaTime;
         transform.Rotate (rotateChange);
+
+        // function for moving back and forth on x axis
+        
     }
 }

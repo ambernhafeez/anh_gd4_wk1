@@ -1,5 +1,7 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class CharacterMovement2D : MonoBehaviour
 {
@@ -7,12 +9,24 @@ public class CharacterMovement2D : MonoBehaviour
     float horizontalMovement;
     public float jumpForce = 5;
     private Rigidbody2D rb;
+    private int bashNum = 0;
+    public TMP_Text scoreText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();;
+        rb = GetComponent<Rigidbody2D>();
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+            if(collision.transform.tag == "ribosome")
+            {
+                Debug.Log("Collided with ribosome");
+                bashNum += 1;
+                scoreText.text = "Ribosome bashes: " + bashNum;
+            }
+        } 
 
     // Update is called once per frame
     void Update()
@@ -24,9 +38,11 @@ public class CharacterMovement2D : MonoBehaviour
         horizontalMovement = Input.GetAxis("Horizontal");
 
         // respawn at new vector if player goes past certain position
-        if(transform.position.x < -2)
+        if(transform.position.y < -4.9)
         {
-            transform.position = new Vector3(0, 2.53f, 0);
+            //transform.position = new Vector3(0, 2.53f, 0);
+            // reload the whole scene
+            SceneManager.LoadScene(0);
         }
 
         // USES INPUT TO MOVE CHARACTER
@@ -50,5 +66,6 @@ public class CharacterMovement2D : MonoBehaviour
             //jump
             rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
         }
+
     }
 }
